@@ -17,7 +17,7 @@ public class ReadDiary {
     @Getter
     public static class Request
     {
-        @Schema(description = "조회할 날짜", required = true)
+        @Schema(description = "조회할 날짜", required = true, example = "2024-06-03")
         @NotNull
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         @DatePeriod
@@ -27,11 +27,15 @@ public class ReadDiary {
     @Schema(name = "ReadDiary_Response")
     @Getter
     @AllArgsConstructor
+    @NoArgsConstructor
     @Builder
     public static class Response
     {
+        @Schema(example = "Clear")
         String main;
+        @Schema(example = "297.11")
         Double temp;
+        @Schema(example = "01n")
         String icon;
 
         String text;

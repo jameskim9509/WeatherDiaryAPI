@@ -17,7 +17,7 @@ public class DeleteDiary {
     @Getter
     public static class Request
     {
-        @Schema(description = "삭제할 날짜", required = true)
+        @Schema(description = "삭제할 날짜", required = true, example = "2024-06-03")
         @NotNull
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         @DatePeriod

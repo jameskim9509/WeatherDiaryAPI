@@ -17,13 +17,13 @@ public class ReadDiaries {
     @AllArgsConstructor
     public static class Request
     {
-        @Schema(description = "조회할 시작 날짜", required = true)
+        @Schema(description = "조회할 시작 날짜", required = true, example = "2024-06-02")
         @NotNull
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         @DatePeriod
         LocalDate startDate;
 
-        @Schema(description = "조회할 마지막 날짜", required = true)
+        @Schema(description = "조회할 마지막 날짜", required = true, example = "2024-06-03")
         @NotNull
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         @DatePeriod
@@ -35,11 +35,13 @@ public class ReadDiaries {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-//    @NoArgsConstructor
     public static class Response
     {
+        @Schema(example = "Clear")
         String main;
+        @Schema(example = "297.11")
         Double temp;
+        @Schema(example = "01n")
         String icon;
 
         String text;

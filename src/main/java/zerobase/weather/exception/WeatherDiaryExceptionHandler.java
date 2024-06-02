@@ -11,7 +11,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import zerobase.weather.aop.Logging;
 import zerobase.weather.dto.ErrorResponse;
 import zerobase.weather.type.ErrorCode;
 
@@ -23,7 +22,7 @@ public class WeatherDiaryExceptionHandler {
 
     @ApiResponse(responseCode = "500", description = "내부 오류",
             content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = String.class)))
+                    schema = @Schema(example = "error")))
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({Exception.class})
     public String ExceptionHandler(Exception e)

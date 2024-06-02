@@ -17,7 +17,7 @@ public class UpdateDiary {
     @AllArgsConstructor
     public static class Request
     {
-        @Schema(description = "수정할 날짜", required = true)
+        @Schema(description = "수정할 날짜", required = true, example = "2024-06-03")
         @NotNull
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         @DatePeriod
@@ -31,8 +31,11 @@ public class UpdateDiary {
     @AllArgsConstructor
     public static class Response
     {
+        @Schema(example = "Clear")
         String main;
+        @Schema(example = "297.11")
         Double temp;
+        @Schema(example = "01n")
         String icon;
 
         String text;

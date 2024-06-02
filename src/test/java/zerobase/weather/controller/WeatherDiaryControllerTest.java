@@ -252,4 +252,15 @@ class WeatherDiaryControllerTest {
                         .value(ErrorCode.DIARY_NOT_FOUND.getMessage())
                 );
     }
+
+    @DisplayName("범위를 벗어난 입력 오류 확인")
+    @Test
+    void datePeriodException() throws Exception {
+        mockMvc.perform(post("/create/diary")
+                        .param("date", String.valueOf(LocalDate.now().plusDays(1))))
+                .andDo(print())
+                .andExpect(status().isNotAcceptable())
+                .andExpect(jsonPath("$[0].code")
+                        .value(ErrorCode.ARGUMENT_NOT_VALID.toString()));
+    }
 }
