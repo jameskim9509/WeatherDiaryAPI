@@ -1,6 +1,7 @@
 package zerobase.weather.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -34,7 +35,8 @@ public class WeatherDiaryController {
     @PostMapping("/create/diary")
     public Object createDiary(
             @ParameterObject @ModelAttribute @Validated CreateDiary.Request reqForm,
-            @RequestBody(description = "내용") String text
+            @RequestBody(description = "내용")
+            @org.springframework.web.bind.annotation.RequestBody(required = false) String text
     )
     {
         return weatherDiaryService.createDiary(reqForm.getDate(), text);
@@ -44,7 +46,9 @@ public class WeatherDiaryController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "일기 조회 성공",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ReadDiary.Response.class)
+                                    array = @ArraySchema(
+                                        schema = @Schema(implementation = ReadDiary.Response.class)
+                                    )
                             )
                     )
             })
@@ -60,7 +64,9 @@ public class WeatherDiaryController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "일기 조회 성공",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = ReadDiaries.Response.class)
+                                    array = @ArraySchema(
+                                        schema = @Schema(implementation = ReadDiaries.Response.class)
+                                    )
                             )
                     )
             })
@@ -83,7 +89,8 @@ public class WeatherDiaryController {
     @PutMapping("/update/diary")
     public Object updateDiary(
             @ParameterObject @ModelAttribute @Validated UpdateDiary.Request reqForm,
-            @RequestBody(description = "내용") String text
+            @RequestBody(description = "내용")
+            @org.springframework.web.bind.annotation.RequestBody(required = false) String text
     )
     {
         return weatherDiaryService.updateDiary(reqForm.getDate(), text);

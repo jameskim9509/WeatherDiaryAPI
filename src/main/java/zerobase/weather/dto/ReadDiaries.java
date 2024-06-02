@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import zerobase.weather.validator.DatePeriod;
 
@@ -13,7 +14,6 @@ import java.time.LocalDate;
 public class ReadDiaries {
     @Schema(name = "ReadDiaries_Request")
     @Getter
-    @Builder
     @AllArgsConstructor
     public static class Request
     {
@@ -33,6 +33,7 @@ public class ReadDiaries {
     @Schema(name = "ReadDiaries_Response")
     @Getter
     @Builder
+    @NoArgsConstructor
     @AllArgsConstructor
 //    @NoArgsConstructor
     public static class Response

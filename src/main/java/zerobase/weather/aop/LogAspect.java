@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
 public class LogAspect {
     @Around("@within(zerobase.weather.aop.Logging) || @annotation(zerobase.weather.aop.Logging)")
     public void doTrace(ProceedingJoinPoint joinPoint) throws Throwable {
-        log.info("{} 호출", joinPoint.getSignature());
+        log.info("ThreadID = {} : {} 호출", Thread.currentThread().getId(), joinPoint.getSignature());
         try{
             joinPoint.proceed();
         } catch (Exception e)
         {
-            log.error("{} 오류 발생", joinPoint.getSignature());
+            log.error("ThreadID = {} : {} 오류 발생", Thread.currentThread().getId(), joinPoint.getSignature());
             throw e;
         }
-        log.info("{} 정상 종료", joinPoint.getSignature());
+        log.info("ThreadID = {} : {} 정상 종료", Thread.currentThread().getId(), joinPoint.getSignature());
     }
 }
