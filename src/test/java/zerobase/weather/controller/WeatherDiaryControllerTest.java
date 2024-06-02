@@ -56,6 +56,23 @@ class WeatherDiaryControllerTest {
         ;
     }
 
+    @DisplayName("Diary 생성 오류 확인")
+    @Test
+    void createDiaryExceptionTest() throws Exception {
+        Mockito.when(weatherDiaryService.createDiary(any(), any()))
+                .thenThrow(new WeatherDiaryException(ErrorCode.WEATHER_NOT_FOUND));
+
+        mockMvc.perform(post("/create/diary")
+                        .param("date", String.valueOf(LocalDate.now())))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code")
+                        .value(ErrorCode.WEATHER_NOT_FOUND.toString()))
+                .andExpect(jsonPath("$.message")
+                        .value(ErrorCode.WEATHER_NOT_FOUND.getMessage())
+                );
+    }
+
     @DisplayName("하루 Diary 조회 성공")
     @Test
     void readDiary() throws Exception {
@@ -89,6 +106,23 @@ class WeatherDiaryControllerTest {
                 .andExpect(jsonPath("$[1].icon").exists())
                 .andExpect(jsonPath("$[1].main").exists())
                 .andExpect(jsonPath("$[1].temp").exists());
+    }
+
+    @DisplayName("하루 Diary 조회 오류 확인")
+    @Test
+    void readDiaryExceptionTest() throws Exception {
+        Mockito.when(weatherDiaryService.readDiary(any()))
+                .thenThrow(new WeatherDiaryException(ErrorCode.DIARY_NOT_FOUND));
+
+        mockMvc.perform(get("/read/diary")
+                        .param("date", String.valueOf(LocalDate.now())))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code")
+                        .value(ErrorCode.DIARY_NOT_FOUND.toString()))
+                .andExpect(jsonPath("$.message")
+                        .value(ErrorCode.DIARY_NOT_FOUND.getMessage())
+                );
     }
 
     @DisplayName("기간 내 Diary 조회 성공")
@@ -128,6 +162,24 @@ class WeatherDiaryControllerTest {
                 .andExpect(jsonPath("$[1].temp").exists());
     }
 
+    @DisplayName("기간내 Diary 조회 오류 확인")
+    @Test
+    void readDiariesExceptionTest() throws Exception {
+        Mockito.when(weatherDiaryService.readDiaries(any(), any()))
+                .thenThrow(new WeatherDiaryException(ErrorCode.DIARY_NOT_FOUND));
+
+        mockMvc.perform(get("/read/diaries")
+                        .param("startDate", String.valueOf(LocalDate.now().minusDays(1)))
+                        .param("endDate", String.valueOf(LocalDate.now())))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code")
+                        .value(ErrorCode.DIARY_NOT_FOUND.toString()))
+                .andExpect(jsonPath("$.message")
+                        .value(ErrorCode.DIARY_NOT_FOUND.getMessage())
+                );
+    }
+
     @DisplayName("Diary 수정 성공")
     @Test
     void updateDiary() throws Exception {
@@ -153,72 +205,6 @@ class WeatherDiaryControllerTest {
                 .andExpect(jsonPath("$.temp").exists());
     }
 
-    @DisplayName("Diary 삭제 성공")
-    @Test
-    void deleteDiary() throws Exception {
-        String text = "123";
-        Mockito.when(weatherDiaryService.deleteDiary(any()))
-                .thenReturn("deleted");
-
-        mockMvc.perform(delete("/delete/diary")
-                        .param("date", String.valueOf(LocalDate.now())))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string("deleted"));
-    }
-
-    @DisplayName("Diary 생성 오류 확인")
-    @Test
-    void createDiaryExceptionTest() throws Exception {
-        Mockito.when(weatherDiaryService.createDiary(any(), any()))
-                .thenThrow(new WeatherDiaryException(ErrorCode.WEATHER_NOT_FOUND));
-
-        mockMvc.perform(post("/create/diary")
-                .param("date", String.valueOf(LocalDate.now())))
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code")
-                        .value(ErrorCode.WEATHER_NOT_FOUND.toString()))
-                .andExpect(jsonPath("$.message")
-                        .value(ErrorCode.WEATHER_NOT_FOUND.getMessage())
-                );
-    }
-
-    @DisplayName("하루 Diary 조회 오류 확인")
-    @Test
-    void readDiaryExceptionTest() throws Exception {
-        Mockito.when(weatherDiaryService.readDiary(any()))
-                .thenThrow(new WeatherDiaryException(ErrorCode.DIARY_NOT_FOUND));
-
-        mockMvc.perform(get("/read/diary")
-                        .param("date", String.valueOf(LocalDate.now())))
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code")
-                        .value(ErrorCode.DIARY_NOT_FOUND.toString()))
-                .andExpect(jsonPath("$.message")
-                        .value(ErrorCode.DIARY_NOT_FOUND.getMessage())
-                );
-    }
-
-    @DisplayName("기간내 Diary 조회 오류 확인")
-    @Test
-    void readDiariesExceptionTest() throws Exception {
-        Mockito.when(weatherDiaryService.readDiaries(any(), any()))
-                .thenThrow(new WeatherDiaryException(ErrorCode.DIARY_NOT_FOUND));
-
-        mockMvc.perform(get("/read/diaries")
-                        .param("startDate", String.valueOf(LocalDate.now().minusDays(1)))
-                        .param("endDate", String.valueOf(LocalDate.now())))
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code")
-                        .value(ErrorCode.DIARY_NOT_FOUND.toString()))
-                .andExpect(jsonPath("$.message")
-                        .value(ErrorCode.DIARY_NOT_FOUND.getMessage())
-                );
-    }
-
     @DisplayName("Diary 수정 오류 확인")
     @Test
     void updateDiaryException() throws Exception {
@@ -234,6 +220,20 @@ class WeatherDiaryControllerTest {
                 .andExpect(jsonPath("$.message")
                         .value(ErrorCode.DIARY_NOT_FOUND.getMessage())
                 );
+    }
+
+    @DisplayName("Diary 삭제 성공")
+    @Test
+    void deleteDiary() throws Exception {
+        String text = "123";
+        Mockito.when(weatherDiaryService.deleteDiary(any()))
+                .thenReturn("deleted");
+
+        mockMvc.perform(delete("/delete/diary")
+                        .param("date", String.valueOf(LocalDate.now())))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string("deleted"));
     }
 
     @DisplayName("Diary 삭제 오류 확인")

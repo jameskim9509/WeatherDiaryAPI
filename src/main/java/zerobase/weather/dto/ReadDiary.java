@@ -26,7 +26,6 @@ public class ReadDiary {
 
     @Schema(name = "ReadDiary_Response")
     @Getter
-    @NoArgsConstructor
     @AllArgsConstructor
     @Builder
     public static class Response

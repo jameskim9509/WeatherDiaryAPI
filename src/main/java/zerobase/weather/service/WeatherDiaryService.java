@@ -58,10 +58,10 @@ public class WeatherDiaryService {
         diaryRepository.save(diary);
 
         return CreateDiary.Response.builder()
-                .main(diary.getWeather().getMain())
-                .icon(diary.getWeather().getIcon())
-                .temp(diary.getWeather().getTemp())
                 .text(diary.getText())
+                .icon(diary.getWeather().getIcon())
+                .main(diary.getWeather().getMain())
+                .temp(diary.getWeather().getTemp())
                 .build();
     }
 
@@ -74,7 +74,8 @@ public class WeatherDiaryService {
                         .main(diary.getWeather().getMain())
                         .icon(diary.getWeather().getIcon())
                         .temp(diary.getWeather().getTemp())
-                        .text(diary.getText()))
+                        .text(diary.getText())
+                        .build())
                 .collect(Collectors.toList());
     }
 
@@ -93,7 +94,8 @@ public class WeatherDiaryService {
                         .main(diary.getWeather().getMain())
                         .icon(diary.getWeather().getIcon())
                         .temp(diary.getWeather().getTemp())
-                        .text(diary.getText()))
+                        .text(diary.getText())
+                        .build())
                 .collect(Collectors.toList());
     }
 

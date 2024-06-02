@@ -42,6 +42,7 @@ public class WeatherDiaryController {
         return weatherDiaryService.createDiary(reqForm.getDate(), text);
     }
 
+
     @Operation(summary = "하루 일기 조회", description = "해당하는 날짜의 일기를 조회합니다.",
             responses = {
                     @ApiResponse(responseCode = "200", description = "일기 조회 성공",
