@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+    <!-- Property 설정 -->
+    <property name="CONSOLE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %magenta([%thread]) %highlight([%-3level]) %logger{5} - %msg %n" />
+
+    <property name="ROLLING_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS}  %logger{5} - %msg %n" />
+    <property name="LOG_PATH" value="./logs" />
+    <property name="MAX_FILE_SIZE" value="10MB" />
+    <property name="TOTAL_SIZE" value="100MB" />
+    <property name="MAX_HISTORY" value="7" />
+
+    <!-- Console appender 설정 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>${CONSOLE_PATTERN}</Pattern>
+        </encoder>
+    </appender>
+
+    <!-- Rolling File appender 설정 -->
+    <appender name="ROLLING_ERROR_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <pattern>${ROLLING_PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+            <totalSizeCap>${TOTAL_SIZE}</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="ROLLING_INFO_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <level>WARN</level>
+        </filter>
+        <encoder>
+            <pattern>${ROLLING_PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+            <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
+            <totalSizeCap>${TOTAL_SIZE}</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ROLLING_ERROR_LOG_FILE"/>
+        <appender-ref ref="ROLLING_INFO_LOG_FILE"/>
+    </root>
+</configuration>
