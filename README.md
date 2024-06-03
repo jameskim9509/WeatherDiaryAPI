@@ -37,13 +37,13 @@ type : 에러코드 및 Enum 타입 관련 코드 <br>
 validator : 커스텀 애노테이션 validator 관련 코드 <br> <br>
 
 - DB 테이블 <br>
-<img src = "/DB_capture.PNG">
+<img src = "/DB_capture.png">
 <br> <br>
 
 - POSTMAN 사용 예 <br>
-<img src = "/postman_capture.PNG" width="600" height="600">
+<img src = "/postman_capture.png" width="600" height="600">
 <br> <br>
 
 - API Document 예 <br>
-<img src = "/swaggerUI_capture.PNG" width="600" height="600">
+<img src = "/swaggerUI_capture.png" width="600" height="600">
 <br>
